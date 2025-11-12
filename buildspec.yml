@@ -2,24 +2,27 @@ version: 0.2
 
 env:
   variables:
-    AWS_REGION: "ap-south-1"
+    REGION: "ap-south-1"
+    ACCT_ID: "224679997553"
+    BUILD_NAME: "project3/mindtrack-app"
+    TAG: "latest"
     REPOSITORY_URI: "224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app"
 
 phases:
   pre_build:
     commands:
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 224679997553.dkr.ecr.ap-south-1.amazonaws.com 
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCT_ID.dkr.ecr.$REGION.amazonaws.com 
   
   build:
     commands:
-      - docker build -t project3/mindtrack-app:latest .
-      - docker tag project3/mindtrack-app:latest 224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app:latest
+      - docker build -t $BUILD_NAME:$TAG .
+      - docker tag $BUILD_NAME:$TAG $REPO_URI:$TAG
 
   post_build:
     commands:
-      - docker push 224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app:latest
-      - printf '[{"name":"Brain-Tasks","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' 224679997553 ap-south-1 project3/mindtrack-app latest > imagedefn.json
+      - docker push $REPO_URI:$TAG
+      - printf '[{"name":"Brain-Tasks","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $ACCT_ID $REGION $BUILD_NAME $TAG > image.json
 
 artifacts:
   files:
-    - imagedefn.json
+    - image.json
