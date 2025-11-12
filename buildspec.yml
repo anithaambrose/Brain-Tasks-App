@@ -6,7 +6,7 @@ env:
     ACCT_ID: "224679997553"
     BUILD_NAME: "project3/mindtrack-app"
     TAG: "latest"
-    REPOSITORY_URI: "224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app"
+    REPO_URI: "224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app"
 
 phases:
   pre_build:
