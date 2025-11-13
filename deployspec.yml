@@ -15,9 +15,10 @@ phases:
     commands:
       #fetching latest image URI from ECR.
       - IMAGE_URI=$(cat image.json | jq -r '.[0].imageUri')
-
+      - OLD_IMAGE=$(awk '/image:/ {print $2}' deployment.yaml)
+      
       # Updating image in deployment manifest file.
-      - sed -i "s|image: \"\"|image: \"$IMAGE_URI\"|g" deployment.yaml
+      - sed -i "s/$OLD_IMAGE/$IMAGE_URI/g" deployment.yaml
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
 
