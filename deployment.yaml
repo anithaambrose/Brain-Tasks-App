@@ -17,6 +17,6 @@ spec:
       containers: 
         - name: app-container
           image: 224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app:latest 
-            ports:
-             - containerPort: 3000
+          ports:
+            - containerPort: 3000
 
