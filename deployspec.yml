@@ -17,8 +17,7 @@ phases:
       - IMAGE_URI=$(cat image.json | jq -r '.[0].imageUri')
 
       # Updating image in deployment manifest file.
-      - kubectl set image deployment/mindtrack-deploy app-container=$IMAGE_URI
-      - kubectl rollout status deployment/mindtrack-deploy
+      - sed -i "s|<image_uri>|$IMAGE_URI|g" deployment.yaml
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
 
