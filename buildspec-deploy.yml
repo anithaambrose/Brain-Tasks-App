@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  variables:
+    REGION: "ap-south-1"
+    CLUSTER_NAME: "mindtrack"
+
+phases:
+  pre_build:
+    commands:
+      #Updating Kubeconfig to access EKS cluster 
+      - aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
+
+  build:
+    commands:
+      #fetching latest image URI from ECR.
+      - IMAGE_URI=$(cat image.json | jq -r '.[0].imageUri')
+
+      # Updating image in deployment manifest file.
+      - kubectl set image deployment/mindtrack-deploy app-container=$IMAGE_URI --record
+      - kubectl rollout status deployment/mindtrack-deploy
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+
