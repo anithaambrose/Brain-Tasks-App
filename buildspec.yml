@@ -5,7 +5,7 @@ env:
     REGION: "ap-south-1"
     ACCT_ID: "224679997553"
     BUILD_NAME: "project3/mindtrack-app"
-    TAG: "build-${CODEBUILD_BUILD_NUMBER}"
+    TAG: "latest"
     REPO_URI: "224679997553.dkr.ecr.ap-south-1.amazonaws.com/project3/mindtrack-app"
 
 phases:
@@ -26,3 +26,4 @@ phases:
 artifacts:
   files:
     - image.json
+
