@@ -18,7 +18,7 @@ phases:
       - OLD_IMAGE=$(awk '/image:/ {print $2}' deployment.yaml)
       
       # Updating image in deployment manifest file.
-      - sed -i "s/$OLD_IMAGE/$IMAGE_URI/g" deployment.yaml
+      - sed -i "s|$OLD_IMAGE|$IMAGE_URI|g" deployment.yaml
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
 
