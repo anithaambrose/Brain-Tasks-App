@@ -8,13 +8,12 @@ env:
 phases:
   pre_build:
     commands:
-      #Updating Kubeconfig to access EKS cluster 
       - aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
   
   build:
     commands:
-      - IMAGE_URI=$(cat image.json | jq -r '.[0].imageUri')
-      - sed -i "s|image:.*|image: $IMAGE_URI|" deployment.yaml
+      - "IMAGE_URI=$(cat image.json | jq -r '.[0].imageUri')"
+      - "sed -i "s|image:.*|image: $IMAGE_URI|" deployment.yaml"
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
 
